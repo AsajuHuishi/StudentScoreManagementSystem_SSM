@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>首页</title>
+<link type="text/css" rel="stylesheet" href="static/css/style.css" >
+	<style type="text/css">
+		.tb{
+			width:130px;
+			height: 40px;
+		}
+		.wel_word{
+			font-size: 30px;
+			float: left;
+			margin-top: 30px;
+		}
+		#main table{
+			margin: auto;
+			margin-top: 10px;
+			border-collapse: collapse;
+		}
+		#function {
+			color: blue;
+		}
+		body {
+			overflow: hidden;
+			background-image: url("static/img/back.png");
+		}
+
+	</style>
+	<script type="text/javascript" src="static/script/jquery-1.7.2.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#btnAdd").click(function(){
+				$(location).attr("href","pages/menu/add.html");
+			});
+			$("#btnUpdate").click(function(){
+				$(location).attr("href","pages/menu/update.html");
+			});
+			$("#btnDelete").click(function(){
+				$(location).attr("href","pages/menu/delete.html");
+			});
+			$("#btnQueryByName").click(function(){
+				$(location).attr("href","pages/menu/queryByName.html");
+			});
+			$("#btnQueryById").click(function(){
+				$(location).attr("href","pages/menu/queryById.html");
+			});
+			$("#btnSort").click(function(){
+				$(location).attr("href","studentScoreAddServlet");
+			});
+			$("#btnStatistics").click(function (){
+				$(location).attr("href","queryServlet");
+			})
+
+		})
+	</script>
+</head>
+<body>
+	<div id="header">
+			<img class="logo_img" alt="" src="static/img/logo2.png" >
+			<span class="wel_word">学生成绩管理系统</span>
+			<div>
+				<a href="pages/user/login.html">登录</a> | 
+				<a href="pages/user/regist.html">注册</a> &nbsp;&nbsp;
+<!--				<a href="pages/cart/cart.html">购物车</a>-->
+<!--				<a href="pages/manager/manager.html">后台管理</a>-->
+			</div>
+	</div>
+	<div id="main">
+		当前页面：<span id="function">主菜单</span>
+		<table align="center" >
+			<tr>
+				<td>
+					<input type="button" id="btnAdd" value="增加" class="tb">
+				</td>
+
+			</tr>
+			<tr>
+				<td>
+					<input type="button" id="btnUpdate" value="按学号修改" class="tb">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" id="btnDelete" value="按学号删除" class="tb">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" id="btnQueryByName" value="按姓名查询" class="tb">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" id="btnQueryById" value="按学号查询" class="tb">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" id="btnSort" value="按成绩排序" class="tb">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" id="btnStatistics" value="统计" class="tb">
+				</td>
+			</tr>
+		</table>
+
+	
+	</div>
+	
+	<div id="bottom">
+		<span>
+			AsajuHuishi 2021
+		</span>
+	</div>
+</body>
+</html>

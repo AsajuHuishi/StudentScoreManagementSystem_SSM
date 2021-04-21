@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--开启注解扫描，只扫描Controller注解-->
+    <context:component-scan base-package="indi.huishi">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <!--配置的视图解析器对象-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--过滤静态资源-->
+    <mvc:default-servlet-handler/>
+<!--    <mvc:resources location="/pages/" mapping="/pages/**" />-->
+<!--    <mvc:resources location="/static/" mapping="/static/**" />-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/student/*"/>
+            <bean class="indi.huishi.interceptor.ManagerInterceptor"/>
+        </mvc:interceptor>
+<!--        <mvc:interceptor>-->
+<!--            <mvc:mapping path="/user/enter"/>-->
+<!--            <bean class="indi.huishi.interceptor.LoginInterceptor"/>-->
+<!--        </mvc:interceptor>-->
+    </mvc:interceptors>
+
+    <!--开启SpringMVC注解的支持-->
+    <mvc:annotation-driven/>
+<!--        <mvc:message-converters>-->
+<!--            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>-->
+<!--            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>-->
+<!--        </mvc:message-converters>-->
+<!--    </mvc:annotation-driven>-->
+
+</beans>

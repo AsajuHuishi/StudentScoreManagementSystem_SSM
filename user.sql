@@ -1,0 +1,23 @@
+USE student_score_ssm;
+
+CREATE TABLE USER(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(20) UNIQUE,
+	PASSWORD VARCHAR(20) NOT NULL,
+	email VARCHAR(20)
+);
+
+DESC USER;
+
+
+SELECT * FROM student_score;
+SELECT * FROM USER;
+
+TRUNCATE TABLE USER; 
+INSERT INTO USER(username, PASSWORD) VALUES
+('huishi','123456'),('apple','123'),('banana','456'),('orange','789'),('pineapple','123');
+
+SELECT * FROM USER WHERE username="apple" AND PASSWORD="123";
+
+
+ALTER TABLE USER MODIFY COLUMN username VARCHAR(20) UNIQUE;
