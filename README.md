@@ -1,98 +1,133 @@
-@[TOC](JavaWeb+MySQL实现学生成绩管理系统)
 # 简介
-<font face="楷体" size="+1" color="#000033">本文基于**Java+MySQL+web**实现一个简单的学生成绩管理系统，实现B/S三层架构。它使用基础的`Servlet`和`JSP`实现Web层。它在Dao层使用`Druid`数据库连接池，使用`DBUtils`操作数据库。在功能上，相比前两个版本增加了**用户注册和登录功能**。
+<center>
+<img src ="https://img-blog.csdnimg.cn/20210421022916813.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70">
+</center>
 
-<font face="楷体" size="+1" color="#000033">完整代码见github
+<font face="楷体" size="+1" color="#000033">本文基于**Spring+SpringMVC+Mybatis**实现一个简单的学生成绩管理系统，实现三层架构。它在上一JavaWeb版本基础上使用了SSM框架，优化了相关功能，使用**分页模型**对所有学生信息进行显示。
 
 # 任务
 <center><img src="https://img-blog.csdnimg.cn/20200923171232277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center"/></center>
 <br/>
 
-# 项目结构
-<center><font face="楷体" size="+1" color="#000033">整体结构</font></center>
-<center><img src="https://img-blog.csdnimg.cn/20210315193254307.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70"/></center>
-
-<center><font face="楷体" size="+1" color="#000033">src目录</font></center>
-<center><img src="https://img-blog.csdnimg.cn/20210315202004790.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70"></center>
-
-<center><font face="楷体" size="+1" color="#000033">web目录</font></center>
-<center></font><img src="https://img-blog.csdnimg.cn/20210315202456583.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70"></center>
-
-<center><font face="楷体" size="+1" color="#000033">依赖jar包</font></center>
-<center></font><img src="https://img-blog.csdnimg.cn/20210315202702881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70"></center>
-
-
 # 相关工作
-<font face="楷体" size="+1" color="#000033">[MySQL+java: 实现学生成绩管理系统（1.0版本）](https://blog.csdn.net/qq_36937684/article/details/108757156)
-[MySQL+java: 实现学生成绩管理系统（2.0版本）](https://blog.csdn.net/qq_36937684/article/details/112502793)
 
-<font face="楷体" size="+1" color="#000033">本项目基于以上[项目](https://github.com/AsajuHuishi/StudentScoreManagementSystem_JDBC)进行改进。主要改进内容有：
-- 使用`Servlet+JSP`实现Web层，完整实现B/S三层架构；
-- 使用`Druid`数据库连接池技术；
-- 增加了用户注册和登录功能；
+- [MySQL+java:   实现学生成绩管理系统（1.0版本）](https://blog.csdn.net/qq_36937684/article/details/108757156)
+- [Mybatis 基于注解方式实现学生成绩管理系统（完整代码）](https://blog.csdn.net/qq_36937684/article/details/113201038)
+- [整合Spring+Mybatis    学生成绩管理系统（完整代码）](https://blog.csdn.net/qq_36937684/article/details/113622364)
+- [JavaWeb+MySQL实现学生成绩管理系统（1.0版本完整代码）](https://blog.csdn.net/qq_36937684/article/details/114846331?spm=1001.2014.3001.5501)
+- [Spring MVC 拦截器判断用户是否登录](https://blog.csdn.net/qq_36937684/article/details/115743919?spm=1001.2014.3001.5501)
+
+<font face="楷体" size="+1" color="#000033">本项目基于以上[项目](https://github.com/AsajuHuishi/StudentScoreManagementSystem_JavaWeb)进行改进。主要改进内容有：
+- 使用Spring+SpringMVC+Mybatis框架实现，代替原生Servlet处理请求转发；
+- 使用SpringMVC拦截器判断用户是否登录，在注册页面使用验证码；
+- 使用分页模型显示所有学生信息，在主页基础上实现增加、删除、修改、统计功能，在前端页面上增加更多交互功能和提示。
 
 
-目录   | 功能
--------- | -----
-indi.huishi.pojo  | 实体类，用户表和学生表
-indi.huishi.utils  | 使用Druid数据库连接池，封装数据库连接和关闭
-indi.huishi.dao  | Dao层，基于DBUtils封装CRUD
-indi.huishi.service | Service层，实现具体业务
-indi.huishi.controller| Web层，使用Servlet实现请求和响应
-indi.huishi.test| 测试
-/pages/menu| 学生成绩管理系统菜单，html页面
-/pages/success| Servlet请求转发到jsp页面回传数据给用户
-/pages/user| 用户注册与登录
+# 项目结构
+<font face="楷体" size="+1" color="#000033">这是一个maven工程。
+
+
+
+```bash
+└─main
+    ├─java
+    │  └─indi
+    │      └─huishi
+    │          ├─controller 控制器
+    │          ├─dao		持久层，和数据库交互
+    │          │  └─impl
+    │          ├─handler	处理异常
+    │          ├─interceptor拦截器判断登录状态
+    │          ├─pojo		实体类 Student User
+    │          ├─service	业务层
+    │          │  └─impl	实现类
+    │          ├─test		测试
+    │          │  └─basic
+    │          └─utils
+    ├─resources				配置文件
+    │  └─indi
+    │      └─huishi
+    │          └─dao
+    └─webapp
+        ├─META-INF
+        ├─pages
+        │  ├─common			页面通用部分
+        │  ├─error			错误页面
+        │  ├─menu			主菜单：学生信息处理相关所有页面
+        │  ├─test
+        │  ├─useless
+        │  └─user			登录和注册
+        ├─static
+        │  ├─css			样式
+        │  ├─img			图片
+        │  └─script			jquery
+        └─WEB-INF
+            ├─classes
+            │  └─indi
+            │      └─huishi
+            │          ├─controller
+            │          ├─dao
+            │          ├─handler
+            │          ├─interceptor
+            │          ├─pojo
+            │          ├─service
+            │          │  └─impl
+            │          ├─test
+            │          │  └─basic
+            │          └─utils
+            └─lib
+
+```
 <hr/>
 
 # 数据库
-<font face="楷体" size="+1" color="#000033">包括用户表和学生表。（本文使用数据库不同于2.0版本的db58）
-用户表：
-```sql
-+----------+--------------+------+-----+---------+----------------+
-| Field    | Type         | Null | Key | Default | Extra          |
-+----------+--------------+------+-----+---------+----------------+
-| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
-| username | varchar(20)  | NO   | UNI | NULL    |                |
-| password | varchar(20)  | NO   |     | NULL    |                |
-| email    | varchar(200) | YES  |     | NULL    |                |
-+----------+--------------+------+-----+---------+----------------+
-```
-<font face="楷体" size="+1" color="#000033">学生表：注意和2.0版本有很大区别。使用id作为主键自增长列，学号为unique列。
+
+<font face="楷体" size="+1" color="#000033">使用MySQL实现，和上一版本的区别：学生表的主键和学号字段分离。主键将不再面向用户出现。
 
 ```sql
-+-----------+-------------+------+-----+---------+----------------+
-| Field     | Type        | Null | Key | Default | Extra          |
-+-----------+-------------+------+-----+---------+----------------+
-| NAME      | varchar(20) | YES  |     | NULL    |                |
-| score     | float       | YES  |     | NULL    |                |
-| className | int(11)     | YES  |     | NULL    |                |
-| no        | varchar(20) | YES  | UNI | NULL    |                |
-| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
-+-----------+-------------+------+-----+---------+----------------+
+USE student_score_ssm;
+
+CREATE TABLE student_score(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	NO VARCHAR(10) UNIQUE NOT NULL,
+	NAME VARCHAR(20) NOT NULL,
+	score FLOAT(20),
+	class_name INT
+);
+
+
+CREATE TABLE USER(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(20) UNIQUE,
+	PASSWORD VARCHAR(20) NOT NULL,
+	email VARCHAR(20)
+);
+
 ```
 # 结果页面
-<font face="楷体" size="+1" color="#000033">主菜单
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2021031521022743.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
-## 增加
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256112.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256181.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
+## 主页
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421021004637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021042102104968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
+
 ## 查询
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256199.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256164.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
-## 删除
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256208.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421021214493.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421021257903.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
+<font face="楷体" size="+1" color="#000033">查询异常
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421021228421.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
+## 增加
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421021731287.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
+
 ## 修改
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256156.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021042102170056.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
+## 删除
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421021712884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256115.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
 
-## 排序
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256230.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
 ## 统计
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256220.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
-## 注册
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210255540.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421021346321.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
 ## 登录
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210255384.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210315210256158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421170512593.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
+
+##  注册
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210421170527699.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTM3Njg0,size_16,color_FFFFFF,t_70#pic_center)
