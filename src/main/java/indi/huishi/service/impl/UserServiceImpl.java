@@ -23,8 +23,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void registerUser(User user) {
+    public void registerUser (User user) throws RuntimeException{
         userDao.saveUser(user);
+//        System.out.println("wait...");// 用来测试事务
+//        System.out.println("test before exception");
+//        int a = 10 / 0;
+//        System.out.println("s");
     }
 
     /**

@@ -44,19 +44,16 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <!-- 注解驱动，启动注解 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
     <import resource="classpath:spring-kaptcha.xml"/>
-    <!--配置事务通知--><!--声明式事务管理-->
+<!--    &lt;!&ndash;配置事务通知&ndash;&gt;&lt;!&ndash;声明式事务管理&ndash;&gt;-->
 <!--    <tx:advice id="txAdvice" transaction-manager="transactionManager">-->
 <!--        <tx:attributes>-->
-<!--            <tx:method name="find*" read-only="true"/>-->
 <!--            <tx:method name="*" isolation="DEFAULT"/>-->
 <!--        </tx:attributes>-->
 <!--    </tx:advice>-->
 
-<!--    &lt;!&ndash;配置AOP增强&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash;配置AOP增强&ndash;&gt;&ndash;&gt;-->
 <!--    <aop:config>-->
 <!--        <aop:advisor advice-ref="txAdvice" pointcut="execution(* indi.huishi.service.impl.*ServiceImpl.*(..))"/>-->
 <!--    </aop:config>-->

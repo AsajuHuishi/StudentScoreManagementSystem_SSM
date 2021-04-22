@@ -49,7 +49,7 @@ public class UserController {
      * @param session
      */
     @RequestMapping("/register.action")
-    protected ModelAndView register(HttpServletRequest req, HttpSession session){
+    protected ModelAndView register(HttpServletRequest req, HttpSession session) throws Exception {
     // 获取session中的验证码
         String token = (String) session.getAttribute("verifyCode");
         // 删除session中的验证码
@@ -90,7 +90,7 @@ public class UserController {
             System.out.println("验证码错误" + code);
             // 把回显信息保存到request域 回显用户名邮箱
             ModelAndView view = new ModelAndView("user/regist");
-            view.addObject("msgs","用户名已经存在");
+            view.addObject("msgs","验证码错误");
             view.addObject("username",username);
             view.addObject("email",email);
             return view;

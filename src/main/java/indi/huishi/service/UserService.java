@@ -10,7 +10,7 @@ public interface UserService {
      *
      * @param user
      */
-    void registerUser(User user);
+    void registerUser(User user) throws Exception;
 
     /**
      * 登录

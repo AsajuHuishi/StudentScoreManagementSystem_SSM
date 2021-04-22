@@ -57,4 +57,13 @@ public class UserServiceTest {
         User user = service.login(new User(null,"huishi","123456",null));
         System.out.println(user);//User{id=1, username='huishi', password='123456', email='null'}
     }
+
+    @Test
+    public void test3() throws Exception {
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        UserService service = (UserService) context.getBean("userService");
+        User user = new User(null, "testTx8", "123456", null);
+        service.registerUser(user);
+        System.out.println(user);//User{id=1, username='huishi', password='123456', email='null'}
+    }
 }
