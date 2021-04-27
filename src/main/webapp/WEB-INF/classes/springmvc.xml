@@ -27,8 +27,10 @@
 <!--    <mvc:resources location="/static/" mapping="/static/**" />-->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/student/*"/>
-            <mvc:mapping path="/menu/*"/>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/static/**"/><!--静态资源-->
+            <mvc:exclude-mapping path="/user/**"/><!--注册、登录-->
+<!--            <mvc:mapping path="/menu/*"/>-->
             <bean class="indi.huishi.interceptor.ManagerInterceptor"/>
         </mvc:interceptor>
 <!--        <mvc:interceptor>-->

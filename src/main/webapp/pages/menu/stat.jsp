@@ -107,7 +107,6 @@
 <div id="main">
     当前页面：<span id="main_description">统计学生信息</span>
     <img title="添加学生" class="add_img2" src="static/img/add.png">
-    <img title="成绩统计" class="stat_img1" src="static/img/statistic.png">
     <div id="searchBy">
         <input type="button" name="queryNo" value="按学号查询" id="btn_queryByNo" >
         <input type="button" name="queryName" value="按姓名查询" id="btn_queryByName">

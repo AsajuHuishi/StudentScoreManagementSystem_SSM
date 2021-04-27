@@ -48,6 +48,18 @@
             $(".search_img2").click(function(){
                 $("#searchBy").toggle();
             });
+            /*点击插入图像，进入添加页面*/
+            $(".add_img2").click(function(){
+                $(location).attr("href", "pages/menu/add.jsp");
+            });
+            /*点击统计图像，进入统计*/
+            $(".stat_img1").click(function(){
+                $(location).attr("href", "student/stat.action");
+            });
+            /*点击注销图像，退出*/
+            $(".exit_img3").click(function(){
+                $(location).attr("href", "user/logout.action");
+            });
             /*点击搜索按钮*/
             $("#btn_queryByNo").click(function(){
                 $(location).attr("href", "pages/menu/queryByNo.jsp");
